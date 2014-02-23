@@ -1,0 +1,24 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.7.0)
+    execjs (2.0.2)
+    filewatcher (0.3.2)
+      trollop (>= 1.16.2)
+    haml (4.0.5)
+      tilt
+    sass (3.2.14)
+    tilt (2.0.0)
+    trollop (2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  coffee-script
+  filewatcher
+  haml
+  sass

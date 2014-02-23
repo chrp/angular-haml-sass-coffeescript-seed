@@ -1,0 +1,42 @@
+#!/usr/bin/ruby
+require 'filewatcher'
+require 'coffee-script'
+
+TIME_FORMAT = '%H:%M:%S'
+SASS_CACHE_LOCATION = '/tmp/sass-cache'
+
+src_dir = [Dir.pwd, 'src'].join('/')
+app_dir = [Dir.pwd, 'app'].join('/')
+
+mapping = { '.haml' => '.html', '.scss' => '.css', '.coffee' => '.js' }
+
+FileWatcher.new([src_dir]).watch do |source, event|
+  ext = File.extname(source)
+  dest_ext = mapping[ext] || ext
+  basename = source[src_dir.length,source.length - src_dir.length - ext.length]
+  destination = app_dir + basename + dest_ext
+
+  if event == :delete
+    puts "[#{Time.now.strftime(TIME_FORMAT)}] - #{basename}#{ext}"
+    FileUtils::rm_r(destination) #also kills directories
+  else
+    puts "[#{Time.now.strftime(TIME_FORMAT)}] + #{basename}#{ext} -> #{basename}#{dest_ext}"
+    FileUtils.mkdir_p(File.dirname(destination)) # will create parent directories
+
+    case ext
+    when '.haml'
+      `haml #{source} #{destination}`
+    when '.coffee'
+      begin
+        File.write(destination, CoffeeScript::compile(File.read(source)))
+      rescue Exception => e
+        puts "\e[31m#{e.message}\e[0m" # in red
+      end
+    when '.scss'
+      `sass --cache-location #{SASS_CACHE_LOCATION} #{source} #{destination}`
+    else
+      `cp #{source} #{destination}`
+    end
+  end
+
+end

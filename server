@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+require 'webrick'
+
+src = [Dir.pwd, 'src'].join('/')
+app = [Dir.pwd, 'app'].join('/')
+
+s = WEBrick::HTTPServer.new(:Port => 4000, :DocumentRoot => app)
+trap('INT') { s.shutdown }
+s.start
