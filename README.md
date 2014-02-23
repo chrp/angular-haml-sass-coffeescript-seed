@@ -8,8 +8,13 @@ original project have been ported to serve as an example.
 
 Directories:
 
-    src - Keep all your source files here
-    app - Compiled or copied version of the source, better not touch.
+    src - Keep all your source files here, contains ported angular-seed app data
+    app - Compiled or copied version
+    ... all others are just copies from angular-seed
+
+There are a lot of little seeders with all extensions out there but I built this one because it
+produces a clean deployable ```app```-directory without any _pre or the likes. Also it uses Ruby
+over node.js for compiling and web-serving.
 
 ## Install
 
